@@ -1,0 +1,84 @@
+#include <stdio.h>
+
+void createFile() {
+    char filename[100];
+    printf("Enter the filename to create: ");
+    scanf("%s", filename);
+
+    FILE *file = fopen(filename, "w");
+    if (file == NULL) {
+        printf("Unable to create the file.\n");
+        return;
+    }
+
+    printf("File created successfully: %s\n", filename);
+    fclose(file);
+}
+
+void deleteFile() {
+    char filename[100];
+    printf("Enter the filename to delete: ");
+    scanf("%s", filename);
+
+    if (remove(filename) == 0) {
+        printf("File deleted successfully: %s\n", filename);
+    } else {
+        printf("Unable to delete the file.\n");
+    }
+}
+
+void modifyFile() {
+    char filename[100];
+    printf("Enter the filename to modify: ");
+    scanf("%s", filename);
+
+    FILE *file = fopen(filename, "a");
+    if (file == NULL) {
+        printf("Unable to open the file.\n");
+        return;
+    }
+
+    char data[100];
+    printf("Enter data to append to the file: ");
+    getchar(); // Clearing the newline character from the buffer
+    fgets(data, sizeof(data), stdin);
+
+    fprintf(file, "%s", data);
+    fclose(file);
+
+    printf("Data appended successfully to the file: %s\n", filename);
+}
+
+int main() {
+    int choice;
+
+    do {
+        printf("\nFile Management System\n");
+        printf("1. Create a file\n");
+        printf("2. Delete a file\n");
+        printf("3. Modify a file\n");
+        printf("4. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                createFile();
+                break;
+            case 2:
+                deleteFile();
+                break;
+            case 3:
+                modifyFile();
+                break;
+            case 4:
+                printf("Exiting the program.\n");
+                break;
+            default:
+                printf("Invalid choice. Please try again.\n");
+                break;
+        }
+    } while (choice != 4);
+
+    return 0;
+}
